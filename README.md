@@ -23,7 +23,7 @@ The original project is tested under the following environment:
 ```
 pytorch==1.5.1
 pytorch-lightning==1.0.0
-transformers==3.0.2
+transformers==3.2.0
 ```
 
 ### Project Structure
@@ -43,27 +43,28 @@ Please first download data from this [link](https://drive.google.com/drive/folde
 Our model is trained using the following command.
 
 ```shellscript 
+EXP_NAME="demo_cmv"
 CUDA_VISIBLE_DEVICES=0 python train.py \
-    --exp-name=[EXP_NAME] \
-    --dataset-name={cmv, nyt_opinion} \
-    --warmup-steps=[WARMUP_STEPS] \
-    --max-epochs=[MAX_EPOCHS] \
+    --exp-name=${EXP_NAME} \
+    --dataset-name=cmv \
+    --warmup-steps=1000 \
+    --max-epochs=5 \
     --batch-size=4 \
     --fp16 \
-    --seq-score-method=learned \
     --marginalization=tok
 ```
 
 For decoding:
 
-```shellscript 
+```shellscript
+EXP_NAME="demo_cmv"
 CUDA_VISIBLE_DEVICES=0 python generate.py \
-    --exp-name=[EXP_NAME] \
-    --dataset-name={cmv, nyt_opinion} \
-    --set-type={dev, test} \
-    --system-setup={oracle, system} \
+    --exp-name=${EXP_NAME} \
+    --dataset-name=cmv \
+    --set-type=test \
+    --system-setup=oracle \
     [--quiet \]
-    --epoch=[EPOCH] \
+    --epoch=5 \
     --batch-size=64 \
     --fp16
 ```
