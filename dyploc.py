@@ -10,15 +10,15 @@ from torch.nn import CrossEntropyLoss
 
 @dataclass
 class DyplocModelLMOutput(ModelOutput):
-    logits : torch.Tensor
-    loss: torch.Tensor
-    scoring_loss: torch.Tensor
-    probs: torch.Tensor
-    past_key_values : Optional[List[torch.FloatTensor]]
-    context_input_ids : Optional[torch.FloatTensor]
-    context_attention_mask : Optional[torch.LongTensor]
-    generator_dec_hidden_states : Optional[Tuple[torch.FloatTensor]]
-    generator_dec_attentions : Optional[Tuple[torch.FloatTensor]]
+    logits : torch.Tensor = None
+    loss: torch.Tensor = None
+    scoring_loss: torch.Tensor = None
+    probs: torch.Tensor = None
+    past_key_values : Optional[List[torch.FloatTensor]] = None
+    context_input_ids : Optional[torch.FloatTensor] = None
+    context_attention_mask : Optional[torch.LongTensor] = None
+    generator_dec_hidden_states : Optional[Tuple[torch.FloatTensor]] = None
+    generator_dec_attentions : Optional[Tuple[torch.FloatTensor]] = None
 
 
 class ScorePredictionHead(nn.Module):
@@ -171,7 +171,7 @@ class DyplocModel(nn.Module):
             loss=loss,
             scoring_loss=scoring_loss,
             probs=combined_log_probs.exp(),
-            past_key_values=gen_outputs.decoder_past_key_values,
+            past_key_values=gen_outputs.past_key_values,
             context_input_ids=context_input_ids,
             context_attention_mask=context_attention_mask,
             generator_dec_hidden_states=gen_outputs.decoder_hidden_states,
